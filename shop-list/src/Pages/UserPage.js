@@ -5,6 +5,7 @@ import User from '../components/User';
 import Footer from '../components/Footer';
 
 const UserPage = () => {
+  
   return (
     <div>
       <MainNav />

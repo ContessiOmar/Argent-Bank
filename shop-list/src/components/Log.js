@@ -1,7 +1,35 @@
-import React from 'react';
-import "../css/main.css"; 
+import "../css/main.css";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setToken, setUser } from '../store/actions/login.actions';
+import { LoginApi } from '../services/api';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const Log = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSignIn = async () => {
+    dispatch(setUser(email, password));
+    try {
+      const response = await LoginApi(email, password);
+
+     
+      console.log("LOGIN!!!!!", response);
+
+      dispatch(setToken(response.token));
+      dispatch(setUser(response.user));
+      navigate('/user-page.html');
+
+    } catch (error) {
+      console.error('PAS DE LOGIN :(', error);
+    }
+  };
+
   return (
     <main className="main bg-dark">
       <section className="sign-in-content">
@@ -10,21 +38,17 @@ const Log = () => {
         <form>
           <div className="input-wrapper">
             <label htmlFor="username">Username</label>
-            <input type="text" id="username" />
+            <input type="text" id="username" value={email} onChange={(e) => setEmail(e.target.value)} />
           </div>
           <div className="input-wrapper">
             <label htmlFor="password">Password</label>
-            <input type="password" id="password" />
-          </div>
-          <div className="input-remember">
-            <input type="checkbox" id="remember-me" />
-            <label htmlFor="remember-me">Remember me</label>
+            <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
          
-          <a href="./user.html" className="sign-in-button">
+         
+          <button type="button" className="sign-in-button" onClick={handleSignIn}>
             Sign In
-          </a>
-        
+          </button>
         </form>
       </section>
     </main>
@@ -32,4 +56,3 @@ const Log = () => {
 };
 
 export default Log;
-
