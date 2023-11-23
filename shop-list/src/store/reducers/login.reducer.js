@@ -1,10 +1,10 @@
 const initialState = {
   data: null,
   token: null,
-  
+  username: null,
 };
 
-const userReducer =  (state = initialState, action) => {
+const loginReducer =  (state = initialState, action) => {
   switch (action.type) {
     case "SET_TOKEN":
       return {
@@ -21,4 +21,4 @@ const userReducer =  (state = initialState, action) => {
       return state;
   }
 };
-export default userReducer
+export default loginReducer

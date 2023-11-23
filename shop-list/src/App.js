@@ -1,5 +1,5 @@
 // App.js
-import React from 'react';
+import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Homep from '../src/Pages/Homep';
 import SignInPage from '../src/Pages/SignInPage';
