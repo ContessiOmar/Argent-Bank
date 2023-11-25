@@ -26,3 +26,27 @@ export const LoginApi = async (email, password) => {
   }
 };
 
+
+export const getUserData = async (token) => {
+  try {
+    const response = await fetch(`${URL}/profile`, {
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`HTTP error! Status: ${response.status}, Message: ${errorText}`);
+    }
+
+    const userData = await response.json();
+    console.log('User data:', userData);
+    return userData;
+  } catch (error) {
+    console.error('Error fetching user data:', error.message);
+    throw error;
+  }
+};

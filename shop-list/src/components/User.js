@@ -1,16 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUsername } from '../store/actions/user.actions';
-//import { UpdateUsernameApi } from '../services/api';
 import MainNav from '../components/MainNav';
 import { useUser } from '../services/UserContest';
+import { getUserData } from '../services/api';
 
 const User = () => {
   const isAuthenticated = true; 
   const dispatch = useDispatch();
   const { userName, setUserName } = useUser();
   const [editing, setEditing] = useState(false);
-  
+    // eslint-disable-next-line
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('token');
+    
+    if (token) {
+      getUserData(token)
+        .then((data) => {
+          setUserData(data.body);
+          setUserName(data.body.userName); 
+        })
+        .catch((error) => {
+          console.error('Error fetching user data:', error);
+        });
+    }
+  }, [setUserName]);
+
   const handleEditClick = () => {
     setEditing(true);
   };
