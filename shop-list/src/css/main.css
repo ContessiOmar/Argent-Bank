@@ -19,6 +19,7 @@ body {
 
 .bg-dark {
   background-color: #12002b;
+  padding-bottom: 2px;
 }
 
 .sr-only {
@@ -289,4 +290,13 @@ body {
   .transaction-button {
     width: 200px;
   }
+}
+
+.navLog {
+  display: flex;
+  align-items: center;
+}
+
+.navLog p {
+  margin-right: 1em;
 }
