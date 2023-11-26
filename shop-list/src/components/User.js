@@ -3,24 +3,24 @@ import { useDispatch } from 'react-redux';
 import { setUsername } from '../store/actions/user.actions';
 import MainNav from '../components/MainNav';
 import { useUser } from '../services/UserContest';
-import { getUserData } from '../services/api';
+import { getUserData, updateUserName } from '../services/api';
 
 const User = () => {
-  const isAuthenticated = true; 
+  const isAuthenticated = true;
   const dispatch = useDispatch();
   const { userName, setUserName } = useUser();
   const [editing, setEditing] = useState(false);
-    // eslint-disable-next-line
   const [userData, setUserData] = useState(null);
+  const [editedUserName, setEditedUserName] = useState('');
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
-    
+
     if (token) {
       getUserData(token)
         .then((data) => {
           setUserData(data.body);
-          setUserName(data.body.userName); 
+          setUserName(data.body.userName);
         })
         .catch((error) => {
           console.error('Error fetching user data:', error);
@@ -30,14 +30,17 @@ const User = () => {
 
   const handleEditClick = () => {
     setEditing(true);
+    setEditedUserName(userName);
   };
 
   const handleSaveClick = async () => {
     try {
-      dispatch(setUsername(userName));
+      await updateUserName(sessionStorage.getItem('token'), editedUserName);
+      setUserName(editedUserName);
+      dispatch(setUsername(editedUserName));
       setEditing(false);
     } catch (error) {
-      console.error(error);
+      console.error('Error updating user name:', error);
     }
   };
 
@@ -49,9 +52,24 @@ const User = () => {
           <>
             <input
               type="text"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
+              value={editedUserName}
+              onChange={(e) => setEditedUserName(e.target.value)}
             />
+
+            <input
+              type="text"
+              value={userData.firstName}
+              className="firstName"
+              readOnly 
+            />
+            
+            <input
+              type="text"
+              value={userData.lastName}
+              className="lastName"
+              readOnly 
+            />
+
             <button className="save-button" onClick={handleSaveClick}>
               Save
             </button>
