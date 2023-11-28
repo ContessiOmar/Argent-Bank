@@ -4,9 +4,13 @@ import { Link } from 'react-router-dom';
 import { useUser } from '../services/UserContest';
 import bankLogo from '../img/argentBankLogo.webp';
 
-
 const MainNav = ({ isAuthenticated }) => {
   const { userName } = useUser();
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('token');
+  };
+  
   return (
     <nav className="main-nav">
       <Link className="main-nav-logo" to="/">
@@ -23,7 +27,7 @@ const MainNav = ({ isAuthenticated }) => {
              <div className='navLog'>
             <p className="user-name">{userName}</p>
 
-            <Link className="main-nav-item" to="/">
+            <Link className="main-nav-item" to="/" onClick={handleLogout}>
               <i className="fa fa-sign-out"></i>
               Sign Out
             </Link>

@@ -18,8 +18,6 @@ export const LoginApi = async (email, password) => {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-
-    
     return jsonResponse;
   } catch (error) {
     throw error;
