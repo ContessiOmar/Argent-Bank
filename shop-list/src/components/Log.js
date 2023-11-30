@@ -17,10 +17,6 @@ const Log = () => {
     dispatch(setUser(email, password));
     try {
       const response = await LoginApi(email, password);
-      //const token = response.token;
-      //sessionStorage.setItem('token', token);
-
-      console.log("LOGIN!!!!!", response);
 
       dispatch(setToken(response.token));
       dispatch(setUser(response.user));
