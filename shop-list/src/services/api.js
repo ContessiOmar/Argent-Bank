@@ -12,7 +12,6 @@ export const LoginApi = async (email, password) => {
     });
     const jsonResponse = await response.json();
     const token = jsonResponse.body.token;
-    console.log ('token:' + token);
     sessionStorage.setItem('token', token);
     
     if (!response.ok) {
@@ -44,7 +43,6 @@ export const getUserData = async (token) => {
     }
 
     const userData = await response.json();
-    console.log('User data:', userData);
     return userData;
   } catch (error) {
     console.error('Error fetching user data:', error.message);
